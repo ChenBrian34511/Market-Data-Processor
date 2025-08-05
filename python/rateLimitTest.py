@@ -1,5 +1,9 @@
 import requests
+import time
 import json
+import datetime
+
+API_KEY = 'ZGOSSLJVHHWNHLZ0'
 
 API_KEY = 'ZGOSSLJVHHWNHLZ0'
 
@@ -12,6 +16,7 @@ for symbol in symbols: #looping through my list of symbols stocks
     print(f"URL: {url}")
 
     try:
+        BeginTime = datetime.datetime.now() #Get the time at the beginning of the run
         response = requests.get(url)
 
         if response.status_code == 200:
@@ -24,7 +29,12 @@ for symbol in symbols: #looping through my list of symbols stocks
 
         else:
             print(f"Error: Status code {response.status_code}")
+        StopTime = datetime.datetime.now() #Get the time at the end of the run
+        API_Time = StopTime - BeginTime # Wait 8 seconds between requests to respect rate limits
+        print(f'API call took: {API_Time.total_seconds():.3f} seconds')
+        time.sleep(8) #Wait 8 seconds between requests to respect rate limits
 
     except Exception as e:
         print(f"Error: {e}")
     
+
